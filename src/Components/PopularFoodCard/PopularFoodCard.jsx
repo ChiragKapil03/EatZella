@@ -1,6 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBus ,faClock} from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const PopularFoodCard = ({image,name,price,addCartFun}) => {
   return (
@@ -24,7 +25,8 @@ const PopularFoodCard = ({image,name,price,addCartFun}) => {
       </div>
       <div className='flex justify-between px-2 '>
         <button className='text-left bg-red-500 w-24 text-xs text-white p-1 flex justify-center font-semibold mt-2 duration-200 active:scale-95 rounded' onClick={addCartFun}>Add To Cart</button>
-        <button className='text-left bg-red-500 w-24 text-xs text-white p-1 flex justify-center font-semibold mt-2 duration-200 active:scale-95 rounded'>Go To Cart</button>
+        <Link to={'/cart'}><button className='text-left bg-red-500 w-24 text-xs text-white p-1 flex justify-center font-semibold mt-2 duration-200 active:scale-95 rounded'>Go To Cart</button></Link>
+
       </div>
     </div>
   )
