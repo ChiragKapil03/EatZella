@@ -16,7 +16,6 @@ const LogIn = () => {
     try {
       const result = await signInWithPopup(auth, googleAuthProvider);
       const user = result.user;
-      
       const userDocRef = doc(db, "Users", user.uid);
       const userDoc = await getDoc(userDocRef);
       
