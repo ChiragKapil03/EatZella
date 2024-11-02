@@ -75,7 +75,7 @@ const LogIn = () => {
           }} />
         </div>
         <div>
-          <label htmlFor="password">Password:</label><br />
+          <label htmlFor="password">Password::</label><br />
           <input type="text" name='password' placeholder='******' className='border rounded-md p-2 w-60 md:w-80' onChange={(e) => {
             setPassword(e.target.value);
           }} />
