@@ -5,25 +5,23 @@ import { faMagnifyingGlass, faArrowLeft, faArrowRight } from '@fortawesome/free-
 import CuisineCard from "../../Components/Cuisine/CuisineCard.jsx";
 import PopularFoodCard from '../../Components/PopularFoodCard/PopularFoodCard.jsx';
 import { menu_list, food_list } from '../../assets/frontend_assets/assets.js';
-import { CartContext } from '../../Context/CartContext.jsx'; // Import your CartContext
+import { CartContext } from '../../Context/CartContext.jsx'; 
 import Cart from '../Cart/Cart.jsx';
 
 const Home = () => {
   const scrollContainerRef = useRef(null);
   const [itemsToShow, setItemsToShow] = useState(12);
   const [foodCategory, setFoodCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   const { cart, setCart } = useContext(CartContext); 
-  console.log(cart);
 
   const AddToCart = (foodItem) => {
     setCart((prevCart) => {
       const itemExists = prevCart.some(item => item._id === foodItem._id);
       if (!itemExists) {
-        console.log('Added to Cart', foodItem);
         return [...prevCart, foodItem]; 
       }
-      console.log('Item already in cart:', foodItem);
       return prevCart; 
     });
   };
@@ -54,9 +52,12 @@ const Home = () => {
     }
   };
 
-  const filteredFoodList = foodCategory
-    ? food_list.filter((item) => item.category === foodCategory)
-    : food_list;
+
+  const filteredFoodList = food_list
+    .filter(item => 
+      (foodCategory ? item.category === foodCategory : true) && 
+      (searchTerm ? item.name.toLowerCase().includes(searchTerm.toLowerCase()) : true)
+    );
 
   return (
     <>
@@ -80,7 +81,7 @@ const Home = () => {
         <h1 className='font-bold text-2xl' style={{ fontFamily: 'Lexend, cursive' }}>What would you like to order?</h1>
         <div className='mt-4'>
           <FontAwesomeIcon icon={faMagnifyingGlass} className='w-5 mx-3 h-5' />
-          <input type="text" placeholder='Find Food' className='border w-11/12 rounded p-1 mx-4 focus:border-orange-500 outline-none h-12' />
+          <input  type="text"  placeholder='Find Food'  className='border w-11/12 rounded p-1 mx-4 focus:border-orange-500 outline-none h-12'  value={searchTerm}  onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
 
         {/* Food Type */}
@@ -91,7 +92,6 @@ const Home = () => {
             {
               menu_list.map((e) => (
                 <CuisineCard key={e.menu_image} imgSrc={e.menu_image} name={e.menu_name} fun={() => {
-                  console.log(e.menu_name);
                   setFoodCategory(e.menu_name);
                 }} />
               ))
@@ -123,7 +123,7 @@ const Home = () => {
             ))
           }
           {
-            itemsToShow < food_list.length && (
+            itemsToShow < filteredFoodList.length && (
               <button onClick={showMoreItems} className="mt-4 bg-orange-600 font-semibold text-white p-2 rounded max-auto">See More</button>
             )
           }
