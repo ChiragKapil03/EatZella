@@ -7,6 +7,8 @@ import PopularFoodCard from '../../Components/PopularFoodCard/PopularFoodCard.js
 import { menu_list, food_list } from '../../assets/frontend_assets/assets.js';
 import { CartContext } from '../../Context/CartContext.jsx'; 
 import Cart from '../Cart/Cart.jsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   const scrollContainerRef = useRef(null);
@@ -20,6 +22,9 @@ const Home = () => {
     setCart((prevCart) => {
       const itemExists = prevCart.some(item => item._id === foodItem._id);
       if (!itemExists) {
+        toast.success(`${foodItem.name} added to cart!`,{
+          position: "top-center",
+        });
         return [...prevCart, foodItem]; 
       }
       return prevCart; 
